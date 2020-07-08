@@ -1,0 +1,387 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
+from django.db import models
+from django.urls import reverse
+
+
+class Authors(models.Model):
+    name = models.TextField()
+    sort = models.TextField(blank=True, null=True)
+    link = models.TextField()
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of MyModelName."""
+        return reverse('author-detail-view', args=[str(self.id)])
+    
+    def __str__(self):
+        """String for representing the MyModelName object (in Admin site etc.)."""
+        return self.name
+
+    class Meta:
+        managed = False
+        db_table = 'authors'
+
+
+
+class Comments(models.Model):
+    book = models.ForeignKey("Books", db_column="book", on_delete=models.CASCADE)
+    text = models.TextField()
+
+
+    class Meta:
+        managed = False
+        db_table = 'comments'
+        indexes = [
+            models.Index(fields=["book"], name="comments_idx"),
+        ]
+
+
+
+class Data(models.Model):
+    book = models.IntegerField()
+    format = models.TextField()
+    uncompressed_size = models.IntegerField()
+    name = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'data'
+        indexes = [
+            models.Index(fields=["format"], name="formats_idx"),
+            models.Index(fields=["book"], name="data_idx"),
+        ]
+
+
+class Identifiers(models.Model):
+    book = models.IntegerField()
+    type = models.TextField()
+    val = models.TextField()
+  
+    def __str__(self):
+        """String for representing the MyModelName object (in Admin site etc.)."""
+        return self.val
+
+    class Meta:
+        managed = False
+        db_table = 'identifiers'
+
+
+class Languages(models.Model):
+    lang_code = models.TextField()
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of MyModelName."""
+        return reverse('language-detail-view', args=[str(self.lang_code)])
+    
+    def __str__(self):
+        """String for representing the MyModelName object (in Admin site etc.)."""
+        return self.lang_code
+
+    class Meta:
+        managed = False
+        db_table = 'languages'
+        indexes = [
+            models.Index(fields=["lang_code"], name="languages_idx"),
+        ]
+
+
+class Publishers(models.Model):
+    name = models.TextField()
+    sort = models.TextField(blank=True, null=True)
+    released = models.ManyToManyField(
+        "Books",
+        through='BooksPublishersLink',
+        through_fields=('publisher', 'book'),
+        related_name="released"
+        )
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of MyModelName."""
+        return reverse('publisher-detail-view', args=[str(self.id)])
+    
+    def __str__(self):
+        """String for representing the MyModelName object (in Admin site etc.)."""
+        return self.name
+
+    class Meta:
+        managed = False
+        db_table = 'publishers'
+        indexes = [
+            models.Index(fields=["name"], name="publishers_idx"),
+        ]
+
+
+class Ratings(models.Model):
+    rating = models.IntegerField(blank=True, null=True)
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of MyModelName."""
+        return reverse('rating-detail-view', args=[str(self.id)])
+    
+    def __str__(self):
+        """String for representing the MyModelName object (in Admin site etc.)."""
+        return str(self.rating)
+
+    class Meta:
+        managed = False
+        db_table = 'ratings'
+
+
+class Series(models.Model):
+    name = models.TextField()
+    sort = models.TextField(blank=True, null=True)
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of MyModelName."""
+        return reverse('series-detail-view', args=[str(self.id)])
+    
+    def __str__(self):
+        """String for representing the MyModelName object (in Admin site etc.)."""
+        return self.name
+
+    class Meta:
+        managed = False
+        db_table = 'series'
+        indexes = [
+            models.Index(fields=["name"], name="series_idx"),
+        ]
+
+
+class Tags(models.Model):
+    name = models.TextField()
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of MyModelName."""
+        return reverse('tag-detail-view', args=[str(self.id)])
+    
+    def __str__(self):
+        """String for representing the MyModelName object (in Admin site etc.)."""
+        return self.name
+
+    class Meta:
+        managed = False
+        db_table = 'tags'
+        indexes = [
+            models.Index(fields=["name"], name="tags_idx"),
+        ]
+
+
+class Books(models.Model):
+    title = models.TextField()
+    sort = models.TextField(blank=True, null=True)
+    # This field type is a guess.
+    timestamp = models.TextField(blank=True, null=True)
+    # This field type is a guess.
+    pubdate = models.TextField(blank=True, null=True)
+    series_index = models.FloatField()
+    author_sort = models.TextField(blank=True, null=True)
+    isbn = models.TextField(blank=True, null=True)
+    lccn = models.TextField(blank=True, null=True)
+    path = models.TextField()
+    flags = models.IntegerField()
+    uuid = models.TextField(blank=True, null=True)
+    has_cover = models.BooleanField(blank=True, null=True)
+    last_modified = models.TextField()  # This field type is a guess.
+    authors = models.ManyToManyField(
+        Authors,
+        through='BooksAuthorsLink',
+        through_fields=('book', 'author'))
+    languages = models.ManyToManyField(
+        Languages,
+        through='BooksLanguagesLink',
+        through_fields=('book', 'lang_code'))
+    publishers = models.ManyToManyField(
+        Publishers,
+        through='BooksPublishersLink',
+        through_fields=('book', 'publisher'))
+    series = models.ManyToManyField(
+        Series,
+        through='BooksSeriesLink',
+        through_fields=('book', 'series'))
+    tags = models.ManyToManyField(
+        Tags,
+        through='BooksTagsLink',
+        through_fields=('book', 'tag'))
+    ratings = models.ManyToManyField(
+        Ratings,
+        through='BooksRatingsLink',
+        through_fields=('book', 'rating'))
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of MyModelName."""
+        return reverse('book-detail-view', args=[str(self.id)])
+    
+    def __str__(self):
+        """String for representing the MyModelName object (in Admin site etc.)."""
+        return self.title
+
+    class Meta:
+        managed = False
+        db_table = 'books'
+        indexes = [
+            models.Index(fields=["sort"], name="books_idx"),
+            models.Index(fields=["author_sort"], name="authors_idx"),
+        ]
+
+
+class BooksAuthorsLink(models.Model):
+    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        Authors, db_column="author", on_delete=models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'books_authors_link'
+        indexes = [
+            models.Index(fields=["book"], name="books_authors_link_bidx"),
+            models.Index(fields=["author"], name="books_authors_link_aidx"),
+        ]
+
+
+class BooksLanguagesLink(models.Model):
+    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+    lang_code = models.ForeignKey(
+        Languages, db_column="lang_code", on_delete=models.CASCADE)
+    item_order = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'books_languages_link'
+        indexes = [
+            models.Index(fields=["book"], name="books_languages_link_bidx"),
+            models.Index(fields=["lang_code"],
+                         name="books_languages_link_aidx"),
+        ]
+
+
+class BooksPublishersLink(models.Model):
+    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+    publisher = models.ForeignKey(
+        Publishers, db_column="publisher", on_delete=models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'books_publishers_link'
+        indexes = [
+            models.Index(fields=["book"], name="books_publishers_link_bidx"),
+            models.Index(fields=["publisher"],
+                         name="books_publishers_link_aidx"),
+        ]
+
+
+class BooksRatingsLink(models.Model):  # TODO add this somehow
+    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+    rating = models.ForeignKey(
+        Ratings, db_column="rating", on_delete=models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'books_ratings_link'
+
+
+class BooksSeriesLink(models.Model):
+    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+    series = models.ForeignKey(
+        Series, db_column="series", on_delete=models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'books_series_link'
+        indexes = [
+            models.Index(fields=["book"], name="books_series_link_bidx"),
+            models.Index(fields=["series"], name="books_series_link_aidx"),
+        ]
+
+
+class BooksTagsLink(models.Model):
+    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tags, db_column="tag", on_delete=models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'books_tags_link'
+        indexes = [
+            models.Index(fields=["book"], name="books_tags_link_bidx"),
+            models.Index(fields=["tag"], name="books_tags_link_aidx"),
+        ]
+
+
+# class BooksPluginData(models.Model):
+#     book = models.IntegerField()
+#     name = models.TextField()
+#     val = models.TextField()
+
+#     class Meta:
+#         managed = False
+#         db_table = 'books_plugin_data'
+
+
+# class ConversionOptions(models.Model):
+#     format = models.TextField()
+#     book = models.IntegerField(blank=True, null=True)
+#     data = models.BinaryField()
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'conversion_options'
+#
+# class LibraryId(models.Model):
+#     uuid = models.TextField()
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'library_id'
+#
+# class CustomColumns(models.Model):
+#     label = models.TextField()
+#     name = models.TextField()
+#     datatype = models.TextField()
+#     mark_for_delete = models.BooleanField()
+#     editable = models.BooleanField()
+#     display = models.TextField()
+#     is_multiple = models.BooleanField()
+#     normalized = models.BooleanField()
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'custom_columns'
+#
+# class Preferences(models.Model):
+#     key = models.TextField()
+#     val = models.TextField()
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'preferences'
+#
+# class Feeds(models.Model):
+#     title = models.TextField()
+#     script = models.TextField()
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'feeds'
+#
+#
+# class LastReadPositions(models.Model):
+#     book = models.IntegerField()
+#     format = models.TextField()
+#     user = models.TextField()
+#     device = models.TextField()
+#     cfi = models.TextField()
+#     epoch = models.FloatField()
+#     pos_frac = models.FloatField()
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'last_read_positions'
+
+
+# class MetadataDirtied(models.Model):
+#     book = models.IntegerField()
+
+#     class Meta:
+#         managed = False
+#         db_table = 'metadata_dirtied'

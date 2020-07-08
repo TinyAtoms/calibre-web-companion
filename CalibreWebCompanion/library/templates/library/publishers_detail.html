@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<h1>{{authors}} </h1>
+
+    {% if publishers.released %}
+    <ul>
+        {% for book in publishers.released.all %}
+
+        <li><a href="{{book.get_absolute_url}}">{{book.title}}</a></li>
+        {%endfor%}
+    </ul>
+    {% else %}
+    {%endif%}
+
+
+{% endblock %}

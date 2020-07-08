@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+  <h1>Publishers List</h1>
+  {% if publishers_list %}
+  <ul>
+    {% for publisher in publishers_list %}
+      <li>
+        <a href="{{ publisher.get_absolute_url }}">{{ publisher.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no publishers in the library.</p>
+  {% endif %}       
+{% endblock %}

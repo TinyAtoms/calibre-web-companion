@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<h1>{{books.title}} by
+  {% if books.authors %}
+  {% for author in books.authors.all %}
+  <a href="{{author.get_absolute_url}}">{{author.name}}</a>
+  {%endfor%}
+  {% else %}
+
+  {{books.author_sort}}
+  {%endif%}
+
+  Published by 
+  {% if books.publishers %}
+  {% for pub in books.publishers.all %}
+  <a href="{{pub.get_absolute_url}}">{{pub.name}}</a>
+  {%endfor%}
+  {% else %}
+  Unknown
+
+  {%endif%}
+
+  Tags:   
+  {% if books.tags %}
+  {% for tag in books.tags.all %}
+  <a href="{{tag.get_absolute_url}}">{{tag.name}}</a>,
+  {%endfor%}
+  {% else %}
+  {%endif%}
+
+  Rating:   
+  {% if books.ratings %}
+  {% for rating in books.ratings.all %}
+  <a href="{{rating.get_absolute_url}}">{{rating}}</a>
+  {%endfor%}
+  {% else %}
+  {%endif%}
+
+  <a href="{{book.publisher.get_absolute_url}}">{{book.publisher}}</a>
+</h1>
+{{comment}}
+<a href="{% static "" %}{{download}}"><img src="{% static "" %}{{imgpath}}" alt="" srcset=""></a>
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+<h1>{{ratings}}</h1>
+    {% if books %}
+    <ul>
+        {% for book in books %}
+
+        <li><a href="{{book.get_absolute_url}}">{{book.title}}</a></li>
+        {%endfor%}
+    </ul>
+    {% else %}
+    {%endif%}
+
+
+
+
+{% endblock %}
