@@ -15,19 +15,20 @@
       <div class="col-sm-2">
       {% block sidebar %}
       <div class="sidenav">
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#clients">Clients</a>
-        <a href="#contact">Contact</a>
-        <button class="dropdown-btn">Dropdown
+        <a href="{% url 'books' %}">Books</a>
+        <a href="{% url 'authors' %}">Authors</a>
+        <a href="{% url 'publishers' %}">Publishers</a>
+        <a href="{% url 'ratings' %}">Ratings</a>
+        <button class="dropdown-btn">Tags
           <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-          <a href="#">Link 1</a>
-          <a href="#">Link 2</a>
-          <a href="#">Link 3</a>
-        </div>
-        <a href="#contact">{{counter}} books</a>
+          {% for tag in tag_list %}
+          <a href="{{tag.get_absolute_url}}">{{tag}}</a>
+        
+        {% endfor %}
+        <a href="#">doesnt work </a>
+      </div>
       </div> 
      {% endblock %}
       </div>
