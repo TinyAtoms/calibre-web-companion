@@ -1,7 +1,30 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Authors, Books, Comments, Ratings, BooksAuthorsLink, Publishers, Tags, BooksTagsLink, BooksRatingsLink, Data
+from django.http import HttpResponseRedirect
+# from .forms import SearchForms
 
+
+# def get_results(request): # TODO this might not be what i want
+#     # if this is a POST request we need to process the form data
+#     if request.method == 'POST':
+#         # create a form instance and populate it with data from the request:
+#         form = SearchForm(request.POST)
+#         # check whether it's valid:
+#         if form.is_valid():
+#             books = Books.objects.all()
+#             if form.title:
+#                 books.filter(sort_icontains=form.title)
+#             if form.author:
+#                 books.filter(author_sort_icontains=form.author)
+      
+#             return HttpResponseRedirect('/results/')
+
+#     # if a GET (or any other method) we'll create a blank form
+#     else:
+#         form = NameForm()
+
+#     return render(request, 'name.html', {'form': form})
 
 class AuthorListView(generic.ListView):
     model = Authors

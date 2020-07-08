@@ -2,17 +2,37 @@
 
 {% block content %}
 {% load static %}
-<h1>{{authors}} </h1>
+<h1>{{publishers}} </h1>
 
-    {% if publishers.released %}
-    <ul>
-        {% for book in publishers.released.all %}
-
-        <li><a href="{{book.get_absolute_url}}">{{book.title}}</a></li>
-        {%endfor%}
-    </ul>
-    {% else %}
-    {%endif%}
+{% if publishers.released %}
+<table id="books">
+    <tr>
+        <!--When a header is clicked, run the sortTable function, with a parameter, 0 for sorting by names, 1 for sorting by country:-->
+        <th onclick="sortTable(0)">Title</th>
+        <th onclick="sortTable(1)">Author</th>
+        <th onclick="sortTable(2)">Rating</th>
+        <th onclick="sortTable(3)">Tags</th>
+        <th onclick="sortTable(4)">Added</th>
+    </tr>
+    {% for book in publishers.released.all %}
+    <tr>
+        <td><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></td>
+        <td>{{book.author_sort}}</td>
+        <td> {% for rating in book.ratings.all %}
+            {{rating}}
+            {% endfor %}
+        </td>
+        <td>
+            {% for tag in book.tags.all %}
+            {{tag}},
+            {% endfor %}
+        </td>
+        <td>{{book.timestamp}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+{%endif%}
 
 
 {% endblock %}
