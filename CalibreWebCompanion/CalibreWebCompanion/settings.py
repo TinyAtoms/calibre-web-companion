@@ -14,7 +14,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CALIBRE_DIR = os.path.abspath("C:\\Users\\MassiveAtoms\\Documents\\Calibre Library")
+CALIBRE_DIR = os.path.abspath(
+    "C:\\Users\\MassiveAtoms\\Documents\\Calibre Library")
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
@@ -36,13 +37,30 @@ STATIC_URL = '/static/'
 SECRET_KEY = 'u(8^+rb%rz5hsx4v^^y(ul7g(4n7a8!db@s*9(m5cs*2_ppy8+'
 
 
-ALLOWED_HOSTS = []
-
-#### Don't change things beyond this
+ALLOWED_HOSTS = ['127.0.0.1', ]
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
+# Don't change things beyond this
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+    'debug_toolbar.panels.profiling.ProfilingPanel',
+]
+
 
 
 
@@ -59,10 +77,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "library"
+    "library",
+    # 'debug_toolbar', # for debugging purposes
 ]
 
 MIDDLEWARE = [
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -111,9 +131,6 @@ DATABASES = {
 }
 
 
-
-
-
 DATABASE_ROUTERS = ["db_routers.DjangoRouter", "db_routers.CalibreRouter"]
 
 # Password validation
@@ -147,5 +164,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-

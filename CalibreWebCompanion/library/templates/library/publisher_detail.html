@@ -14,11 +14,11 @@
         <th onclick="sortTable(3)">Tags</th>
         <th onclick="sortTable(4)">Added</th>
     </tr>
-    {% for book in publisher.released.all %}
+    {% for book in books %}
     <tr>
         <td><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></td>
         <td>{{book.author_sort}}</td>
-        <td> {% for rating in book.ratings.all %}
+        <td> {% for rating in book.rating.all %}
             {{rating}}
             {% endfor %}
         </td>
