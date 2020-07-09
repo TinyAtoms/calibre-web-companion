@@ -2,29 +2,24 @@ from django.shortcuts import render
 from django.views import generic
 from .models import Authors, Books, Comments, Ratings, BooksAuthorsLink, Publishers, Tags, BooksTagsLink, BooksRatingsLink, Data
 from django.http import HttpResponseRedirect
-# from .forms import SearchForms
+from .forms import SearchForm
+from django.db import models
+from django.db.models import Q
 
+class SearchView(generic.TemplateView):
+    template_name = 'search.html'
 
-# def get_results(request): # TODO this might not be what i want
-#     # if this is a POST request we need to process the form data
-#     if request.method == 'POST':
-#         # create a form instance and populate it with data from the request:
-#         form = SearchForm(request.POST)
-#         # check whether it's valid:
-#         if form.is_valid():
-#             books = Books.objects.all()
-#             if form.title:
-#                 books.filter(sort_icontains=form.title)
-#             if form.author:
-#                 books.filter(author_sort_icontains=form.author)
-      
-#             return HttpResponseRedirect('/results/')
-
-#     # if a GET (or any other method) we'll create a blank form
-#     else:
-#         form = NameForm()
-
-#     return render(request, 'name.html', {'form': form})
+class ResultsView(generic.ListView): # no clue if this is secure. 
+    # according to this https://stackoverflow.com/questions/13574043/how-do-django-forms-sanitize-text-input-to-prevent-sql-injection-xss-etc 
+    # it is
+    model = Books
+    template_name = 'results.html'
+    def get_queryset(self): # new
+        title = self.request.GET.get('title')
+        author = self.request.GET.get('author')
+        return Books.objects.filter(
+            Q(sort__icontains=title) and Q(author_sort__icontains=author)
+        )
 
 class AuthorListView(generic.ListView):
     model = Authors
@@ -54,7 +49,8 @@ class AuthorDetailView(generic.DetailView):
         context = super(AuthorDetailView, self).get_context_data(**kwargs)
         # Create any data and add it to the context
         books = BooksAuthorsLink.objects.filter(author=context["object"].id)
-        context['books'] = context['books'] = sorted([b.book for b in books.all()],  key=lambda x: x.title)
+        context['books'] = context['books'] = sorted(
+            [b.book for b in books.all()],  key=lambda x: x.title)
         return context
 
 
@@ -88,7 +84,8 @@ class RatingDetailView(generic.DetailView):
         context = super(RatingDetailView, self).get_context_data(**kwargs)
         # Create any data and add it to the context
         books = BooksRatingsLink.objects.filter(rating=context["object"].id)
-        context['books'] = sorted([b.book for b in books.all()], key=lambda x: x.title)
+        context['books'] = sorted(
+            [b.book for b in books.all()], key=lambda x: x.title)
         return context
 
 
@@ -100,5 +97,6 @@ class TagDetailView(generic.DetailView):
         context = super(TagDetailView, self).get_context_data(**kwargs)
         # Create any data and add it to the context
         books = BooksTagsLink.objects.filter(tag=context["object"].id)
-        context['books'] = sorted([b.book for b in books.all()],  key=lambda x: x.title)
+        context['books'] = sorted(
+            [b.book for b in books.all()],  key=lambda x: x.title)
         return context

@@ -16,5 +16,8 @@ urlpatterns = [
     path('rating/<int:pk>', views.RatingDetailView.as_view(), name='rating-detail-view'),
     path('tag/<int:pk>', views.TagDetailView.as_view(), name='tag-detail-view'),
 
+    path('results/', views.ResultsView.as_view(), name='results'),
+    path('search/', views.SearchView.as_view(), name='search'),
+
 
 ]

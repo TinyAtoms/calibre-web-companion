@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<form action="{% url 'results' %}" method="get">
+    <label for="title">Title: </label>
+    <input id="title" type="text" name="title" value="">
+    <label for="author">Author: </label>
+    <input id="author" type="text" name="author" value="">
+    <input type="submit" value="search">
+
+</form>
+
+
+{% endblock %}
