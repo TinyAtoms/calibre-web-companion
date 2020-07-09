@@ -5,7 +5,27 @@ from django.http import HttpResponseRedirect
 from .forms import SearchForm
 from django.db import models
 from django.db.models import Q
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 
+
+@login_required
+def index(request):
+    return render(request,'accounts/index.html')
+
+    
+def sign_up(request):
+    context = {}
+    form = UserCreationForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return render(request,'registration/index.html')
+    context['form']=form
+    return render(request,'registration/sign_up.html',context)
 
 class SearchView(generic.TemplateView):
     template_name = 'search.html'

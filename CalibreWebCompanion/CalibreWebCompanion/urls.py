@@ -21,7 +21,8 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('library/', include('library.urls')),
-    path('', RedirectView.as_view(url='library/', permanent=True)),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('library.urls')),
+    path('', RedirectView.as_view(url='books/', permanent=True)),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

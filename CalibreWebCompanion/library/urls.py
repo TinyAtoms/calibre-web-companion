@@ -19,5 +19,7 @@ urlpatterns = [
     path('results/', views.ResultsView.as_view(), name='results'),
     path('search/', views.SearchView.as_view(), name='search'),
 
+    path('accounts/sign_up/',views.sign_up,name="sign-up")
+
 
 ]

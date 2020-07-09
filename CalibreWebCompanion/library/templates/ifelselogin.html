@@ -1,0 +1,6 @@
+   {% if user.is_authenticated %}
+   
+   {% else %}
+   <h1>You don't have permission to view this.</h1>
+     <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
+   {% endif %} 
