@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.views import generic
 from .models import Author, Book, Comment, Rating, BookAuthorLink, Publisher, Tag, BookTagLink, BookRatingLink, Data
 from django.http import HttpResponseRedirect
-from .forms import SearchForm
+from .forms import SearchForm, UserCreationForm
 from django.db import models
 from django.db.models import Q
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
