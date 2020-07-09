@@ -3,15 +3,15 @@
 {% block content %}
 {% load static %}
   <h1>Tags List</h1>
-  {% if tags_list %}
+  {% if tag_list %}
   <ul>
-    {% for tag in tags_list %}
+    {% for tag in tag_list %}
       <li>
         <a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
       </li>
     {% endfor %}
   </ul>
   {% else %}
-    <p>There are no tags in the library.</p>
+    <p>There are no tag in the library.</p>
   {% endif %}       
 {% endblock %}

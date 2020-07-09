@@ -1,68 +1,72 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Authors, Books, Comments, Ratings, BooksAuthorsLink, Publishers, Tags, BooksTagsLink, BooksRatingsLink, Data
+from .models import Author, Book, Comment, Rating, BookAuthorLink, Publisher, Tag, BookTagLink, BookRatingLink, Data
 from django.http import HttpResponseRedirect
 from .forms import SearchForm
 from django.db import models
 from django.db.models import Q
 
+
 class SearchView(generic.TemplateView):
     template_name = 'search.html'
 
-class ResultsView(generic.ListView): # no clue if this is secure. 
-    # according to this https://stackoverflow.com/questions/13574043/how-do-django-forms-sanitize-text-input-to-prevent-sql-injection-xss-etc 
+
+class ResultsView(generic.ListView):  # no clue if this is secure.
+    # according to this https://stackoverflow.com/questions/13574043/how-do-django-forms-sanitize-text-input-to-prevent-sql-injection-xss-etc
     # it is
-    model = Books
+    model = Book
     template_name = 'results.html'
-    def get_queryset(self): # new
+
+    def get_queryset(self):  # new
         title = self.request.GET.get('title')
         author = self.request.GET.get('author')
-        return Books.objects.filter(
+        return Book.objects.filter(
             Q(sort__icontains=title) and Q(author_sort__icontains=author)
         )
 
+
 class AuthorListView(generic.ListView):
-    model = Authors
+    model = Author
 
 
 class BookListView(generic.ListView):
-    model = Books
+    model = Book
 
 
 class PublisherListView(generic.ListView):
-    model = Publishers
+    model = Publisher
 
 
 class RatingListView(generic.ListView):
-    model = Ratings
+    model = Rating
 
 
 class TagListView(generic.ListView):
-    model = Tags
+    model = Tag
 
 
 class AuthorDetailView(generic.DetailView):
-    model = Authors
+    model = Author
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
         context = super(AuthorDetailView, self).get_context_data(**kwargs)
         # Create any data and add it to the context
-        books = BooksAuthorsLink.objects.filter(author=context["object"].id)
-        context['books'] = context['books'] = sorted(
+        books = BookAuthorLink.objects.filter(author=context["object"].id)
+        context['books'] = sorted(
             [b.book for b in books.all()],  key=lambda x: x.title)
         return context
 
 
 class BookDetailView(generic.DetailView):
-    model = Books
+    model = Book
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
         context = super(BookDetailView, self).get_context_data(**kwargs)
         # Create any data and add it to the context
         try:
-            context['comment'] = Comments.objects.get(
+            context['comment'] = Comment.objects.get(
                 book=context["object"].id).text
         except:
             pass
@@ -73,30 +77,30 @@ class BookDetailView(generic.DetailView):
 
 
 class PublisherDetailView(generic.DetailView):
-    model = Publishers
+    model = Publisher
 
 
 class RatingDetailView(generic.DetailView):
-    model = Ratings
+    model = Rating
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
         context = super(RatingDetailView, self).get_context_data(**kwargs)
         # Create any data and add it to the context
-        books = BooksRatingsLink.objects.filter(rating=context["object"].id)
+        books = BookRatingLink.objects.filter(rating=context["object"].id)
         context['books'] = sorted(
             [b.book for b in books.all()], key=lambda x: x.title)
         return context
 
 
 class TagDetailView(generic.DetailView):
-    model = Tags
+    model = Tag
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
         context = super(TagDetailView, self).get_context_data(**kwargs)
         # Create any data and add it to the context
-        books = BooksTagsLink.objects.filter(tag=context["object"].id)
+        books = BookTagLink.objects.filter(tag=context["object"].id)
         context['books'] = sorted(
             [b.book for b in books.all()],  key=lambda x: x.title)
         return context

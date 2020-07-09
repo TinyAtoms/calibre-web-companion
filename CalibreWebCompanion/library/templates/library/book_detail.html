@@ -2,19 +2,19 @@
 
 {% block content %}
 {% load static %}
-<h1>{{books.title}} by
-  {% if books.authors %}
-  {% for author in books.authors.all %}
+<h1>{{book.title}} by
+  {% if book.authors %}
+  {% for author in book.authors.all %}
   <a href="{{author.get_absolute_url}}">{{author.name}}</a>
   {%endfor%}
   {% else %}
 
-  {{books.author_sort}}
+  {{book.author_sort}}
   {%endif%}
 
   Published by 
-  {% if books.publishers %}
-  {% for pub in books.publishers.all %}
+  {% if book.publishers %}
+  {% for pub in book.publishers.all %}
   <a href="{{pub.get_absolute_url}}">{{pub.name}}</a>
   {%endfor%}
   {% else %}
@@ -23,16 +23,16 @@
   {%endif%}
 
   Tags:   
-  {% if books.tags %}
-  {% for tag in books.tags.all %}
+  {% if book.tags %}
+  {% for tag in book.tags.all %}
   <a href="{{tag.get_absolute_url}}">{{tag.name}}</a>,
   {%endfor%}
   {% else %}
   {%endif%}
 
   Rating:   
-  {% if books.ratings %}
-  {% for rating in books.ratings.all %}
+  {% if book.ratings %}
+  {% for rating in book.ratings.all %}
   <a href="{{rating.get_absolute_url}}">{{rating}}</a>
   {%endfor%}
   {% else %}
@@ -40,8 +40,11 @@
 
   <a href="{{book.publisher.get_absolute_url}}">{{book.publisher}}</a>
 </h1>
-{{comment}}
-<a href="{% static "" %}{{download}}"><img src="{% static "" %}{{imgpath}}" alt="" srcset=""></a>
 
+<a href="{% static "" %}{{download}}"><img src="{% static "" %}{{imgpath}}" alt="download" srcset=""></a>
+
+{% autoescape off %}
+{{comment}}
+{% endautoescape %}
 
 {% endblock %}

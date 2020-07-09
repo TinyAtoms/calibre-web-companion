@@ -2,9 +2,9 @@
 
 {% block content %}
 {% load static %}
-<h1>{{publishers}} </h1>
 
-{% if publishers.released %}
+<h1>{{tag}}</h1>
+{% if books %}
 <table id="books">
     <tr>
         <!--When a header is clicked, run the sortTable function, with a parameter, 0 for sorting by names, 1 for sorting by country:-->
@@ -14,7 +14,7 @@
         <th onclick="sortTable(3)">Tags</th>
         <th onclick="sortTable(4)">Added</th>
     </tr>
-    {% for book in publishers.released.all %}
+    {% for book in books %}
     <tr>
         <td><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></td>
         <td>{{book.author_sort}}</td>
@@ -23,7 +23,7 @@
             {% endfor %}
         </td>
         <td>
-            {% for tag in book.tags.all %}
+            {% for tag in book.tag.all %}
             {{tag}},
             {% endfor %}
         </td>
@@ -33,6 +33,8 @@
 </table>
 {% else %}
 {%endif%}
+
+
 
 
 {% endblock %}

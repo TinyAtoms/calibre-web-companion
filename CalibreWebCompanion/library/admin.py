@@ -1,16 +1,16 @@
 from django.contrib import admin
-from .models import Authors, Books, Languages, Publishers, Series, Tags
+from .models import Author, Book, Language, Publisher, Series, Tag
 # Register your models here.
 
-@admin.register(Authors)
+@admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     list_display = (["name"])
 
-@admin.register(Languages)
+@admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
     list_display = (["id", "lang_code"])
 
-@admin.register(Publishers)
+@admin.register(Publisher)
 class PublisherAdmin(admin.ModelAdmin):
     list_display = (["id","name"])
 
@@ -18,10 +18,10 @@ class PublisherAdmin(admin.ModelAdmin):
 class SeriesAdmin(admin.ModelAdmin):
     list_display = (["id","name"])
 
-@admin.register(Tags)
+@admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = (["id","name"])
 
-@admin.register(Books)
+@admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = (["id","title", "author_sort"])

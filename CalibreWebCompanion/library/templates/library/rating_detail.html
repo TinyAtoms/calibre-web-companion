@@ -3,7 +3,7 @@
 {% block content %}
 {% load static %}
 
-<h1>{{ratings}}</h1>
+<h1>{{rating}}</h1>
 {% if books %}
 <table id="books">
     <tr>
@@ -18,7 +18,7 @@
     <tr>
         <td><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></td>
         <td>{{book.author_sort}}</td>
-        <td> {% for rating in book.ratings.all %}
+        <td> {% for rating in book.rating.all %}
             {{rating}}
             {% endfor %}
         </td>

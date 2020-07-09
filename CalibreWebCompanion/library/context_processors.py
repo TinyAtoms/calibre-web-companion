@@ -1,12 +1,12 @@
-from .models import Authors, Tags, Publishers, Languages, Ratings, Series
+from .models import Author, Tag, Publisher, Language, Rating, Series
 
 
 def filters(request):
-    unique_authors = Authors.objects.all().order_by('sort')
-    unique_tags = Tags.objects.all().order_by('name')
-    unique_publishers = Publishers.objects.all().order_by('name')
-    unique_languages = Languages.objects.all()
-    unique_ratings = Ratings.objects.all().order_by('rating')
+    unique_authors = Author.objects.all().order_by('sort')
+    unique_tags = Tag.objects.all().order_by('name')
+    unique_publishers = Publisher.objects.all().order_by('name')
+    unique_languages = Language.objects.all()
+    unique_ratings = Rating.objects.all().order_by('rating')
     unique_series = Series.objects.all().order_by('sort')
 
     return {

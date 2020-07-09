@@ -9,7 +9,7 @@ from django.db import models
 from django.urls import reverse
 
 
-class Authors(models.Model):
+class Author(models.Model):
     name = models.TextField()
     sort = models.TextField(blank=True, null=True)
     link = models.TextField()
@@ -28,8 +28,8 @@ class Authors(models.Model):
 
 
 
-class Comments(models.Model):
-    book = models.ForeignKey("Books", db_column="book", on_delete=models.CASCADE)
+class Comment(models.Model):
+    book = models.ForeignKey("Book", db_column="book", on_delete=models.CASCADE)
     text = models.TextField()
 
 
@@ -57,7 +57,7 @@ class Data(models.Model):
         ]
 
 
-class Identifiers(models.Model):
+class Identifier(models.Model):
     book = models.IntegerField()
     type = models.TextField()
     val = models.TextField()
@@ -71,7 +71,7 @@ class Identifiers(models.Model):
         db_table = 'identifiers'
 
 
-class Languages(models.Model):
+class Language(models.Model):
     lang_code = models.TextField()
 
     def get_absolute_url(self):
@@ -90,12 +90,12 @@ class Languages(models.Model):
         ]
 
 
-class Publishers(models.Model):
+class Publisher(models.Model):
     name = models.TextField()
     sort = models.TextField(blank=True, null=True)
     released = models.ManyToManyField(
-        "Books",
-        through='BooksPublishersLink',
+        "Book",
+        through='BookPublisherLink',
         through_fields=('publisher', 'book'),
         related_name="released"
         )
@@ -116,7 +116,7 @@ class Publishers(models.Model):
         ]
 
 
-class Ratings(models.Model):
+class Rating(models.Model):
     rating = models.IntegerField(blank=True, null=True)
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
@@ -151,7 +151,7 @@ class Series(models.Model):
         ]
 
 
-class Tags(models.Model):
+class Tag(models.Model):
     name = models.TextField()
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
@@ -169,7 +169,7 @@ class Tags(models.Model):
         ]
 
 
-class Books(models.Model):
+class Book(models.Model):
     title = models.TextField()
     sort = models.TextField(blank=True, null=True)
     # This field type is a guess.
@@ -186,28 +186,28 @@ class Books(models.Model):
     has_cover = models.BooleanField(blank=True, null=True)
     last_modified = models.TextField()  # This field type is a guess.
     authors = models.ManyToManyField(
-        Authors,
-        through='BooksAuthorsLink',
+        Author,
+        through='BookAuthorLink',
         through_fields=('book', 'author'))
     languages = models.ManyToManyField(
-        Languages,
-        through='BooksLanguagesLink',
+        Language,
+        through='BookLanguageLink',
         through_fields=('book', 'lang_code'))
     publishers = models.ManyToManyField(
-        Publishers,
-        through='BooksPublishersLink',
+        Publisher,
+        through='BookPublisherLink',
         through_fields=('book', 'publisher'))
     series = models.ManyToManyField(
         Series,
-        through='BooksSeriesLink',
+        through='BookSeriesLink',
         through_fields=('book', 'series'))
     tags = models.ManyToManyField(
-        Tags,
-        through='BooksTagsLink',
+        Tag,
+        through='BookTagLink',
         through_fields=('book', 'tag'))
     ratings = models.ManyToManyField(
-        Ratings,
-        through='BooksRatingsLink',
+        Rating,
+        through='BookRatingLink',
         through_fields=('book', 'rating'))
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
@@ -226,10 +226,10 @@ class Books(models.Model):
         ]
 
 
-class BooksAuthorsLink(models.Model):
-    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+class BookAuthorLink(models.Model):
+    book = models.ForeignKey(Book, db_column="book", on_delete=models.CASCADE)
     author = models.ForeignKey(
-        Authors, db_column="author", on_delete=models.CASCADE)
+        Author, db_column="author", on_delete=models.CASCADE)
 
     class Meta:
         managed = False
@@ -240,10 +240,10 @@ class BooksAuthorsLink(models.Model):
         ]
 
 
-class BooksLanguagesLink(models.Model):
-    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+class BookLanguageLink(models.Model):
+    book = models.ForeignKey(Book, db_column="book", on_delete=models.CASCADE)
     lang_code = models.ForeignKey(
-        Languages, db_column="lang_code", on_delete=models.CASCADE)
+        Language, db_column="lang_code", on_delete=models.CASCADE)
     item_order = models.IntegerField()
 
     class Meta:
@@ -256,10 +256,10 @@ class BooksLanguagesLink(models.Model):
         ]
 
 
-class BooksPublishersLink(models.Model):
-    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+class BookPublisherLink(models.Model):
+    book = models.ForeignKey(Book, db_column="book", on_delete=models.CASCADE)
     publisher = models.ForeignKey(
-        Publishers, db_column="publisher", on_delete=models.CASCADE)
+        Publisher, db_column="publisher", on_delete=models.CASCADE)
 
     class Meta:
         managed = False
@@ -271,18 +271,18 @@ class BooksPublishersLink(models.Model):
         ]
 
 
-class BooksRatingsLink(models.Model):  # TODO add this somehow
-    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+class BookRatingLink(models.Model):  # TODO add this somehow
+    book = models.ForeignKey(Book, db_column="book", on_delete=models.CASCADE)
     rating = models.ForeignKey(
-        Ratings, db_column="rating", on_delete=models.CASCADE)
+        Rating, db_column="rating", on_delete=models.CASCADE)
 
     class Meta:
         managed = False
         db_table = 'books_ratings_link'
 
 
-class BooksSeriesLink(models.Model):
-    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
+class BookSeriesLink(models.Model):
+    book = models.ForeignKey(Book, db_column="book", on_delete=models.CASCADE)
     series = models.ForeignKey(
         Series, db_column="series", on_delete=models.CASCADE)
 
@@ -295,9 +295,9 @@ class BooksSeriesLink(models.Model):
         ]
 
 
-class BooksTagsLink(models.Model):
-    book = models.ForeignKey(Books, db_column="book", on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tags, db_column="tag", on_delete=models.CASCADE)
+class BookTagLink(models.Model):
+    book = models.ForeignKey(Book, db_column="book", on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, db_column="tag", on_delete=models.CASCADE)
 
     class Meta:
         managed = False
@@ -308,7 +308,7 @@ class BooksTagsLink(models.Model):
         ]
 
 
-# class BooksPluginData(models.Model):
+# class BookPluginData(models.Model):
 #     book = models.IntegerField()
 #     name = models.TextField()
 #     val = models.TextField()
