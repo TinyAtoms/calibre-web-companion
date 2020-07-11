@@ -39,7 +39,7 @@
           </button>
           <div class="dropdown-container">
             {% for author in unique_authors %}
-            <a href="{{author.get_absolute_url}}">{{author}}</a>
+            <a href="{{author.get_absolute_url}}">{{author.name}}({{author.num_books}})</a>
 
             {% endfor %}
           </div>
@@ -49,7 +49,7 @@
           </button>
           <div class="dropdown-container">
             {% for publisher in unique_publishers %}
-            <a href="{{publisher.get_absolute_url}}">{{publisher}}</a>
+            <a href="{{publisher.get_absolute_url}}">{{publisher}} ({{publisher.num_books}})</a>
 
             {% endfor %}
           </div>
@@ -59,7 +59,7 @@
           </button>
           <div class="dropdown-container">
             {% for rating in unique_ratings %}
-            <a href="{{rating.get_absolute_url}}">{{rating}}</a>
+            <a href="{{rating.get_absolute_url}}">{{rating}} ({{rating.num_books}})</a>
 
             {% endfor %}
           </div>
@@ -68,7 +68,7 @@
           </button>
           <div class="dropdown-container">
             {% for tag in unique_tags %}
-            <a href="{{tag.get_absolute_url}}">{{tag}}</a>
+            <a href="{{tag.get_absolute_url}}">{{tag}} ({{tag.num_books}})</a>
 
             {% endfor %}
           </div>

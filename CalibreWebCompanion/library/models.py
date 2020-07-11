@@ -17,7 +17,7 @@ class Author(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('author-detail-view', args=[str(self.id)])
-    
+
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.name
@@ -27,11 +27,10 @@ class Author(models.Model):
         db_table = 'authors'
 
 
-
 class Comment(models.Model):
-    book = models.ForeignKey("Book", db_column="book", on_delete=models.CASCADE)
+    book = models.ForeignKey("Book", db_column="book",
+                             on_delete=models.CASCADE)
     text = models.TextField()
-
 
     class Meta:
         managed = False
@@ -39,7 +38,6 @@ class Comment(models.Model):
         indexes = [
             models.Index(fields=["book"], name="comments_idx"),
         ]
-
 
 
 class Data(models.Model):
@@ -61,7 +59,7 @@ class Identifier(models.Model):
     book = models.IntegerField()
     type = models.TextField()
     val = models.TextField()
-  
+
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.val
@@ -77,7 +75,7 @@ class Language(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('language-detail-view', args=[str(self.lang_code)])
-    
+
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.lang_code
@@ -98,12 +96,12 @@ class Publisher(models.Model):
         through='BookPublisherLink',
         through_fields=('publisher', 'book'),
         related_name="released"
-        )
+    )
 
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('publisher-detail-view', args=[str(self.id)])
-    
+
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.name
@@ -118,10 +116,11 @@ class Publisher(models.Model):
 
 class Rating(models.Model):
     rating = models.IntegerField(blank=True, null=True)
+
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('rating-detail-view', args=[str(self.id)])
-    
+
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return str(self.rating)
@@ -138,7 +137,7 @@ class Series(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('series-detail-view', args=[str(self.id)])
-    
+
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.name
@@ -153,10 +152,11 @@ class Series(models.Model):
 
 class Tag(models.Model):
     name = models.TextField()
+
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('tag-detail-view', args=[str(self.id)])
-    
+
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.name
@@ -193,14 +193,28 @@ class Book(models.Model):
         Language,
         through='BookLanguageLink',
         through_fields=('book', 'lang_code'))
+
+    @property
+    def language(self):
+        return self.languages.first()
+
     publishers = models.ManyToManyField(
         Publisher,
         through='BookPublisherLink',
         through_fields=('book', 'publisher'))
+
+    @property
+    def publisher(self):
+        return self.publishers.first()
+
     series = models.ManyToManyField(
         Series,
         through='BookSeriesLink',
         through_fields=('book', 'series'))
+
+    @property
+    def serie(self):
+        return self.series.first()
     tags = models.ManyToManyField(
         Tag,
         through='BookTagLink',
@@ -209,10 +223,15 @@ class Book(models.Model):
         Rating,
         through='BookRatingLink',
         through_fields=('book', 'rating'))
+
+    @property
+    def rating(self):
+        return self.rating.first()
+
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('book-detail-view', args=[str(self.id)])
-    
+
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
         return self.title
