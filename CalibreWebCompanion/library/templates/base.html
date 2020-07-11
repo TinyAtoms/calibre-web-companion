@@ -5,96 +5,87 @@
   {% block title %}<title>Local Library</title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <!-- Add additional CSS in static file -->
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  <style>
+  table {
+    width:100%;
+    table-layout:fixed;
+  }
+  th {
+    text-align: center;
+  }
+  .title {
+    width: 40%;
+  }
+  .author {
+    width: 20%;
+  }
+  .rating {
+    width: 5%;
+  }
+  .tags {
+    width: 15%;
+  }
+  .added {
+    width: 20%;
+  }
+  </style>
 </head>
 
 <body>
-  {% block topnav%}
-  <ul class="topnav">
 
-    {% if user.is_authenticated %}
-    <li class="active"><a href="{{user.get_absolute_url}}"> {{ user.get_username }}</a></li>
-    <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-    {% else %}
-    <li><a href="{% url 'sign-up'%}?next={{request.path}}">Sign up</a></li>
-    <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-    {% endif %}
-  </ul>
-  {% endblock %}
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper row">
 
-  {% if user.is_authenticated %}
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-2">
-        {% block sidebar %}
-        <div class="sidenav">
-          <a href="{% url 'search' %}">Search</a>
-          <a href="{% url 'books' %}">Books</a>
-          <button class="dropdown-btn">Authors
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-container">
-            {% for author in unique_authors %}
-            <a href="{{author.get_absolute_url}}">{{author}}</a>
+        <ul class="right">
+        {% if user.is_authenticated %}
+          <li class="active"><a href="{{user.get_absolute_url}}"> {{ user.get_username }}</a></li>
+          <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+        </ul>
 
-            {% endfor %}
-          </div>
+        <ul class="left">
+          <li><a href="{% url 'search' %}">Search</a></li>
+          <li><a href="{% url 'books' %}">Books</a></li>
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdown-authors">Authors<i class="material-icons right">arrow_drop_down</i></a></li>
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdown-ratings">Ratings<i class="material-icons right">arrow_drop_down</i></a></li>
+          <li><a class="dropdown-trigger" href="#!" data-target="dropdown-tags">Tags<i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+        <ul id="dropdown-authors" class="dropdown-content">
+          {% for author in unique_authors %}
+          <li><a href="{{author.get_absolute_url}}">{{author}}</a></li>
+          {% endfor %}
+        </ul>
+        <ul id="dropdown-ratings" class="dropdown-content">
+          {% for rating in unique_ratings %}
+          <li><a href="{{rating.get_absolute_url}}">{{rating}}</a></li>
+          {% endfor %}
+        </ul>
+        <ul id="dropdown-tags" class="dropdown-content">
+          {% for tag in unique_tags %}
+          <li><a href="{{tag.get_absolute_url}}">{{tag}}</a></li>
+          {% endfor %}
+        </ul>
 
-          <button class="dropdown-btn">Publishers
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-container">
-            {% for publisher in unique_publishers %}
-            <a href="{{publisher.get_absolute_url}}">{{publisher}}</a>
-
-            {% endfor %}
-          </div>
-
-          <button class="dropdown-btn">Ratings
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-container">
-            {% for rating in unique_ratings %}
-            <a href="{{rating.get_absolute_url}}">{{rating}}</a>
-
-            {% endfor %}
-          </div>
-          <button class="dropdown-btn">Tags
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-container">
-            {% for tag in unique_tags %}
-            <a href="{{tag.get_absolute_url}}">{{tag}}</a>
-
-            {% endfor %}
-          </div>
-
-        </div>
-        {% endblock %}
+        {% else %}
+          <li><a href="{% url 'sign-up'%}?next={{request.path}}">Sign up</a></li>
+          <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+        </ul>
+        {% endif %}
       </div>
-      <div class="col-sm-10 ">{% block content %}{% endblock %}</div>
-    </div>
+    </nav>
   </div>
   <script>
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
-
-    for (i = 0; i < dropdown.length; i++) {
-      dropdown[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        var dropdownContent = this.nextElementSibling;
-        if (dropdownContent.style.display === "block") {
-          dropdownContent.style.display = "none";
-        } else {
-          dropdownContent.style.display = "block";
-        }
-      });
-    }
+  $(".dropdown-trigger").dropdown({hover: true, constrainWidth: false, coverTrigger: false});
   </script>
+
+{% block content %} {% endblock %}
 
   <script>
     function sortTable(n) {
@@ -152,17 +143,6 @@
       }
     }
   </script>
-
-  {% else %}
-  <h1>You don't have permission to view this.</h1>
-  <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-  or 
-  <li><a href="{% url 'sign-up'%}?next={{request.path}}">Sign up</a></li>
-  {% endif %}
-
-
-
-
 
 </body>
 
