@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% load static %}
 
-<h1 class="left">⭐ {{rating}}</h1>
+<h1 class="left">Books with rating: {{rating}}</h1>
 {% if books %}
 <table id="books" class="highlight centered">
     <tr>
