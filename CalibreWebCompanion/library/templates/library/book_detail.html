@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load static %}
 
 <div class="row">
-  <div class="col s4"><a href="{{download}}"><img src="{{imgpath}}" alt="download" srcset=""></a></div>
+  <div class="col s4"><a href="{{download}}"><img src=" {% static "" %}{{imgpath}}" alt="download" srcset=""></a></div>
   <div class="col s8">
   <h1> {{book.title}}</h1> 
   <h4> by
