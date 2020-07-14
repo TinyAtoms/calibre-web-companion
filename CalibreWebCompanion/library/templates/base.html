@@ -79,7 +79,7 @@
         </ul>
         <ul id="dropdown-tags" class="dropdown-content">
           {% for tag in unique_tags %}
-          <li><a href="{{tag.get_absolute_url}}">{{tag}}</a></li>
+          <li><a href="{{tag.get_absolute_url}}">{{tag}} ({{tag.num_books}})</a></li>
           {% endfor %}
         </ul>
 
@@ -110,10 +110,11 @@
           <div class="col s12 m6 offset-m3">
             <div class="card">
               <div class="card-content center">
-                <p>You don't have permission to view this.</p> 
+                <p>You don't have permission to view this.</p>
               </div>
               <div class="card-action center">
-                <a class="waves-effect waves-light btn-large green accent-4" href="{% url 'login'%}?next={{request.path}}">Login</a>
+                <a class="waves-effect waves-light btn-large green accent-4"
+                  href="{% url 'login'%}?next={{request.path}}">Login</a>
               </div>
             </div>
           </div>

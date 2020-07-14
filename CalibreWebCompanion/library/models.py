@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from django.urls import reverse
+from django.utils.functional import cached_property
 
 
 class Author(models.Model):
@@ -224,9 +225,9 @@ class Book(models.Model):
         through='BookRatingLink',
         through_fields=('book', 'rating'))
 
-    @property
+    @cached_property
     def rating(self):
-        return self.rating.first()
+        return self.ratings.first()
 
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
