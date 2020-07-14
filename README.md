@@ -3,7 +3,7 @@ Django 3.0
 
 # how to use:
 Edit `./CalibreWebCompanion/CalibreWebCompanion/settings`.  
-Set CALIBREPATH to the path of your library  
+Set CALIBRE_DIR to the path of your library  
 `./CalibreWebCompanion`    
 run `./manage.py runserver`  
 
