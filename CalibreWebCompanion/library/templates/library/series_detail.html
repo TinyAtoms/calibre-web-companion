@@ -18,7 +18,7 @@
     <tr>
         <td><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></td>
         <td>{{book.author_sort}}</td>
-        <td> {% for rating in book.rating.all %}
+        <td> {% for rating in book.ratings.all %}
             {{rating}}
             {% endfor %}
         </td>
