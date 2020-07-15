@@ -57,7 +57,7 @@ class Data(models.Model):
 
 
 class Identifier(models.Model):
-    book = models.IntegerField()
+    book = models.ForeignKey("Book", db_column="book", on_delete=models.CASCADE)
     type = models.TextField()
     val = models.TextField()
 

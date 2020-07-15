@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Author, Book, Comment, Rating, BookAuthorLink, Publisher, Tag, BookTagLink, BookRatingLink, Data
+from .models import Author, Book, Comment, Rating, BookAuthorLink, Publisher, Tag, BookTagLink, BookRatingLink, Data, Identifier
 from django.http import HttpResponseRedirect
 from .forms import SearchForm, UserCreationForm
 from django.db import models
@@ -40,11 +40,14 @@ class ResultsView(generic.ListView):  # no clue if this is secure.
     def get_queryset(self):  # new
         title = self.request.GET.get('title')
         author = self.request.GET.get('author')
+        identifier = self.request.GET.get("identifier")
         books = Book.objects.prefetch_related("tags", "ratings")
         if title:
             books =books.filter(sort__icontains=title)
         if author:
             books = books.filter(author_sort__icontains=author)
+        if identifier:
+            books = books.filter(identifier__val=identifier)
         return books
 
 
