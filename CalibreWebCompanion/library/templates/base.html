@@ -58,7 +58,6 @@
         </ul>
 
         <ul class="left">
-          <li><a href="{% url 'search' %}">Search</a></li>
           <li><a href="{% url 'books' %}">Books</a></li>
           <li><a class="dropdown-trigger" href="#!" data-target="dropdown-authors">Authors<i
                 class="material-icons right">arrow_drop_down</i></a></li>
@@ -66,6 +65,18 @@
                 class="material-icons right">arrow_drop_down</i></a></li>
           <li><a class="dropdown-trigger" href="#!" data-target="dropdown-tags">Tags<i
                 class="material-icons right">arrow_drop_down</i></a></li>
+          <li><a href="{% url 'search' %}">Advanced search</a></li>
+          <li>
+            <!-- stefan, this div. can we have this int the navbar? -->
+            <div class="container">
+              <form action="{% url 'results' %}" method="get" style="padding-top:2em">
+                <label for="generic"></label>
+                <input id="generic" type="text" name="generic" value="">
+                <button class="waves-effect waves-light btn green accent-4" type="submit">search</button>
+              </form>
+            </div>
+            <!-- this is the end of the div, stefan -->
+          </li>
         </ul>
         <ul id="dropdown-authors" class="dropdown-content">
           {% for author in unique_authors %}
@@ -89,6 +100,8 @@
         </ul>
         {% endif %}
       </div>
+
+
     </nav>
   </div>
   <script>

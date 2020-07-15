@@ -41,13 +41,20 @@ class ResultsView(generic.ListView):  # no clue if this is secure.
         title = self.request.GET.get('title')
         author = self.request.GET.get('author')
         identifier = self.request.GET.get("identifier")
+        generic = self.request.GET.get("generic")
         books = Book.objects.prefetch_related("tags", "ratings")
         if title:
-            books =books.filter(sort__icontains=title)
+            books = books.filter(sort__icontains=title)
         if author:
             books = books.filter(author_sort__icontains=author)
         if identifier:
             books = books.filter(identifier__val=identifier)
+        if generic:
+            books = books.filter(
+                Q(sort__icontains=generic) | 
+                Q(author_sort__icontains=generic) | 
+                Q(identifier__val=generic)
+            )
         return books
 
 
@@ -57,6 +64,7 @@ class AuthorListView(generic.ListView):
 
 class BookListView(generic.ListView):
     model = Book
+
     def get_queryset(self):
         # Annotate the books with ratings, tags, etc
         # books = Book.objects.annotate(
