@@ -14,6 +14,16 @@
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
   <style>
+    p.count {
+      color: #FFFFFF;
+      background-color: #515151;
+      border: 1px #303030;
+      border-radius: 0.5rem;
+      padding: .2rem .25rem ;
+      margin: 0.1rem 0.1rem .1rem;
+
+    }
+
     table {
       width: 100%;
       table-layout: fixed;
@@ -24,7 +34,7 @@
     }
 
     .title {
-      width: 40%;
+      width: 30%;
     }
 
     .author {
@@ -36,12 +46,16 @@
     }
 
     .tags {
-      width: 15%;
+      width: 25%;
+    }
+    .added {
+      width: 10%;
     }
 
-    .added {
-      width: 20%;
+    .published {
+      width: 10%;
     }
+
   </style>
 </head>
 
@@ -108,7 +122,8 @@
         </ul>
         <ul id="dropdown-pubishers" class="dropdown-content">
           {% for pub in unique_publishers %}
-          <li><a href="{{pub.get_absolute_url}}">{{pub}} ({{pub.num_books}})</a></li>
+          <!-- stefan here's my shit count  -->
+          <li><a href="{{pub.get_absolute_url}}">{{pub}} <p class="count">{{pub.num_books}}</p> </a> </li>
           {% endfor %}
         </ul>
 
