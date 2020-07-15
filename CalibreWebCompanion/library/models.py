@@ -174,9 +174,9 @@ class Book(models.Model):
     title = models.TextField()
     sort = models.TextField(blank=True, null=True)
     # This field type is a guess.
-    timestamp = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(blank=True, null=True)
     # This field type is a guess.
-    pubdate = models.TextField(blank=True, null=True)
+    pubdate = models.DateTimeField(blank=True, null=True)
     series_index = models.FloatField()
     author_sort = models.TextField(blank=True, null=True)
     isbn = models.TextField(blank=True, null=True)
@@ -185,7 +185,7 @@ class Book(models.Model):
     flags = models.IntegerField()
     uuid = models.TextField(blank=True, null=True)
     has_cover = models.BooleanField(blank=True, null=True)
-    last_modified = models.TextField()  # This field type is a guess.
+    last_modified = models.DateTimeField()  # This field type is a guess.
     authors = models.ManyToManyField(
         Author,
         through='BookAuthorLink',

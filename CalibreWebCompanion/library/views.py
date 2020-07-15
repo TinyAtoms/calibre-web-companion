@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Author, Book, Comment, Rating, BookAuthorLink, Publisher, Tag, BookTagLink, BookRatingLink, Data, Identifier
+from .models import Author, Book, Comment, Rating, BookAuthorLink, Publisher, Tag, BookTagLink, BookRatingLink, Data, Identifier, Series
 from django.http import HttpResponseRedirect
 from .forms import SearchForm, UserCreationForm
 from django.db import models
@@ -79,6 +79,9 @@ class PublisherListView(generic.ListView):
 class RatingListView(generic.ListView):
     model = Rating
 
+class SeriesListView(generic.ListView): # make url entry and template, sometime
+    model = Series
+
 
 class TagListView(generic.ListView):
     model = Tag
@@ -150,5 +153,17 @@ class TagDetailView(generic.DetailView):
         # Create any data and add it to the context
         books = Book.objects.prefetch_related("tags", "ratings")
         books = books.filter(tags=context["object"].id)
+        context['books'] = sorted(books,  key=lambda x: x.title)
+        return context
+
+class SeriesDetailView(generic.DetailView):
+    model = Series
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the context
+        context = super(SeriesDetailView, self).get_context_data(**kwargs)
+        # Create any data and add it to the context
+        books = Book.objects.prefetch_related("tags", "ratings")
+        books = books.filter(series=context["object"].id)
         context['books'] = sorted(books,  key=lambda x: x.title)
         return context

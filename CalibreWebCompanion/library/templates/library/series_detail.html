@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{Series}} </h1>
+
+
+<table id="books" class="highlight centered">
+    <tr>
+        <!--When a header is clicked, run the sortTable function, with a parameter, 0 for sorting by names, 1 for sorting by country:-->
+        <th class="title" onclick="sortTable(0)">Title</th>
+        <th class="author" onclick="sortTable(1)">Author</th>
+        <th class="rating" onclick="sortTable(2)">Rating</th>
+        <th class="tags" onclick="sortTable(3)">Tags</th>
+        <th class="added" onclick="sortTable(4)">Added</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+        <td><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></td>
+        <td>{{book.author_sort}}</td>
+        <td> {% for rating in book.rating.all %}
+            {{rating}}
+            {% endfor %}
+        </td>
+        <td>
+            {% for tag in book.tags.all %}
+            {{tag}},
+            {% endfor %}
+        </td>
+        <td>{{book.timestamp}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+
+
+{% endblock %}

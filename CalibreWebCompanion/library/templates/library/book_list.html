@@ -16,6 +16,7 @@
     <th class="rating" onclick="sortTable(2)">Rating</th>
     <th class="tags" onclick="sortTable(3)">Tags</th>
     <th class="added" onclick="sortTable(4)">Added</th>
+    <th class="added" onclick="sortTable(5)">Published</th>
   </tr>
   {% for book in book_list %}
   <tr>
@@ -30,7 +31,8 @@
       {{tag}},
       {% endfor %}
     </td>
-    <td>{{book.timestamp}}</td>
+    <td>{{book.timestamp | timesince}} ago</td> <!-- YES, very good sorting here.... // DEBUG fix js so it can sort this -->
+    <td>{{book.pubdate.year}}</td>
   </tr>
   {% endfor %}
 </table>

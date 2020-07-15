@@ -59,12 +59,19 @@
 
         <ul class="left">
           <li><a href="{% url 'books' %}">Books</a></li>
-          <li><a class="dropdown-trigger" href="#!" data-target="dropdown-authors">Authors<i
+          <li><a class="dropdown-trigger" href={% url 'authors' %} data-target="dropdown-authors">Authors<i
                 class="material-icons right">arrow_drop_down</i></a></li>
-          <li><a class="dropdown-trigger" href="#!" data-target="dropdown-ratings">Ratings<i
+          <li><a class="dropdown-trigger" href={% url "ratings" %} data-target="dropdown-ratings">Ratings<i
                 class="material-icons right">arrow_drop_down</i></a></li>
-          <li><a class="dropdown-trigger" href="#!" data-target="dropdown-tags">Tags<i
+          <li><a class="dropdown-trigger" href={% url "tags" %} data-target="dropdown-tags">Tags<i
                 class="material-icons right">arrow_drop_down</i></a></li>
+
+          <li><a class="dropdown-trigger" href={% url "series" %} data-target="dropdown-series">Series<i
+                class="material-icons right">arrow_drop_down</i></a></li>
+
+          <li><a class="dropdown-trigger" href={% url "publishers" %} data-target="dropdown-pubishers">Publishers<i
+                class="material-icons right">arrow_drop_down</i></a></li>
+
           <li><a href="{% url 'search' %}">Advanced search</a></li>
           <li>
             <!-- stefan, this div. can we have this int the navbar? -->
@@ -91,6 +98,17 @@
         <ul id="dropdown-tags" class="dropdown-content">
           {% for tag in unique_tags %}
           <li><a href="{{tag.get_absolute_url}}">{{tag}} ({{tag.num_books}})</a></li>
+          {% endfor %}
+        </ul>
+
+        <ul id="dropdown-series" class="dropdown-content">
+          {% for tag in unique_series %}
+          <li><a href="{{tag.get_absolute_url}}">{{tag}} ({{tag.num_books}})</a></li>
+          {% endfor %}
+        </ul>
+        <ul id="dropdown-pubishers" class="dropdown-content">
+          {% for pub in unique_publishers %}
+          <li><a href="{{pub.get_absolute_url}}">{{pub}} ({{pub.num_books}})</a></li>
           {% endfor %}
         </ul>
 
