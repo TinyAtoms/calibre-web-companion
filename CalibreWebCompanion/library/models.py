@@ -383,25 +383,3 @@ class BookTagLink(models.Model):
 #     class Meta:
 #         managed = False
 #         db_table = 'feeds'
-#
-#
-# class LastReadPositions(models.Model):
-#     book = models.IntegerField()
-#     format = models.TextField()
-#     user = models.TextField()
-#     device = models.TextField()
-#     cfi = models.TextField()
-#     epoch = models.FloatField()
-#     pos_frac = models.FloatField()
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'last_read_positions'
-
-
-# class MetadataDirtied(models.Model):
-#     book = models.IntegerField()
-
-#     class Meta:
-#         managed = False
-#         db_table = 'metadata_dirtied'

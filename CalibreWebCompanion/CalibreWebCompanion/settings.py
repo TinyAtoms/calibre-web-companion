@@ -19,6 +19,20 @@ CALIBRE_DIR = os.path.abspath(
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
+
+# optimisation stuff
+CONN_MAX_AGE = 60 * 5 
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        "TIMEOUT" : 60 * 5,
+        
+    }
+}
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
@@ -33,7 +47,7 @@ STATIC_URL = '/static/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: keep the secret key used in production secret! 
 SECRET_KEY = 'u(8^+rb%rz5hsx4v^^y(ul7g(4n7a8!db@s*9(m5cs*2_ppy8+'
 
 
@@ -43,7 +57,7 @@ INTERNAL_IPS = [
     '127.0.0.1',
     # ...
 ]
-# Don't change things beyond this
+
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -83,6 +97,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware', # DEBUG purposes
+    'django.middleware.cache.UpdateCacheMiddleware', # cache
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -90,6 +105,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware', # cache
 ]
 
 ROOT_URLCONF = 'CalibreWebCompanion.urls'
