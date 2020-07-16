@@ -21,6 +21,9 @@ this is in development mode. don't actually use it or release it like this. The 
 - [ ] cache with vary headers
 - [ ] localisation
 - [ ] Beautifying template
+- [ ]  Setup email functionality
+- [ ]  Profiling with logging
+- [ ]  deploy
 
 
  
