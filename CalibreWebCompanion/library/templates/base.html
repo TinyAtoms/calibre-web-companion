@@ -19,7 +19,7 @@
       background-color: #515151;
       border: 1px #303030;
       border-radius: 0.5rem;
-      padding: .2rem .25rem ;
+      padding: .2rem .25rem;
       margin: 0.1rem 0.1rem .1rem;
 
     }
@@ -48,6 +48,7 @@
     .tags {
       width: 25%;
     }
+
     .added {
       width: 10%;
     }
@@ -55,11 +56,12 @@
     .published {
       width: 10%;
     }
-
   </style>
 </head>
 
 <body>
+
+
 
   <div class="navbar-fixed">
     <nav>
@@ -70,7 +72,9 @@
           <li class="active"><a href="{{user.get_absolute_url}}"> {{ user.get_username }}</a></li>
           <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
         </ul>
-
+        {% load cache %}
+        {% cache 500 sidebar request.user.username %}
+        <!--Maybe i'm retarded but this is not caching versions per user-->
         <ul class="left">
           <li><a href="{% url 'books' %}">Books</a></li>
           <li><a class="dropdown-trigger" href={% url 'authors' %} data-target="dropdown-authors">Authors<i
@@ -126,14 +130,13 @@
           <li><a href="{{pub.get_absolute_url}}">{{pub}} <p class="count">{{pub.num_books}}</p> </a> </li>
           {% endfor %}
         </ul>
-
+        {% endcache %}
         {% else %}
         <li><a href="{% url 'sign-up'%}?next={{request.path}}">Sign up</a></li>
         <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
         </ul>
         {% endif %}
       </div>
-
 
     </nav>
   </div>
@@ -144,7 +147,6 @@
       coverTrigger: false
     });
   </script>
-
 
   {% if user.is_authenticated %}
   {% block content %} {% endblock %}
