@@ -1,1 +1,5 @@
-django==3.0.8
+django>=3.0.8
+# development
+django-debug-toolbar>=2.2
+django-silk>=4.0
+locust>=1.1

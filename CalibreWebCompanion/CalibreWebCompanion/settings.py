@@ -23,13 +23,6 @@ with open( BASE_DIR + "/settings.json", "r") as userfile:
     INTERNAL_IPS = usersettings["INTERNAL_IPS"]
 
 
-# CALIBRE_DIR = os.path.abspath(
-#     "C:\\Users\\MassiveAtoms\\Documents\\Calibre Library")
-# SECRET_KEY = 'u(8^+rb%rz5hsx4v^^y(ul7g(4n7a8!db@s*9(m5cs*2_ppy8+'
-# ALLOWED_HOSTS = ['127.0.0.1', ]
-# INTERNAL_IPS = ['127.0.0.1', ]
-
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -99,11 +92,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "library",
-    'debug_toolbar', # DEBUG  purposes
+    # "silk",
+    # 'debug_toolbar', # DEBUG  purposes
 ]
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware', # DEBUG purposes
+    # 'silk.middleware.SilkyMiddleware', # DEBUG/profiling purposes
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware', # DEBUG purposes
     'django.middleware.cache.UpdateCacheMiddleware', # cache
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -138,8 +133,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CalibreWebCompanion.wsgi.application'
 
-
-# Database
+##                                                                    ##
+########################################################################
+##                    DATBASE                                         ##
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
@@ -154,7 +150,7 @@ DATABASES = {
 }
 
 
-DATABASE_ROUTERS = ["db_routers.DjangoRouter", "db_routers.CalibreRouter"]
+DATABASE_ROUTERS = [ "db_routers.CalibreRouter", "db_routers.DjangoRouter"]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
