@@ -11,16 +11,34 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import json
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+with open( BASE_DIR + "/settings.json", "r") as userfile:
+    usersettings = json.load(userfile)
+    CALIBRE_DIR = os.path.abspath(usersettings["CALIBRE_DIR"])
+    SECRET_KEY = usersettings["SECRET_KEY"]
+    ALLOWED_HOSTS = usersettings["ALLOWED_HOSTS"]
+    INTERNAL_IPS = usersettings["INTERNAL_IPS"]
+
+
+# CALIBRE_DIR = os.path.abspath(
+#     "C:\\Users\\MassiveAtoms\\Documents\\Calibre Library")
+# SECRET_KEY = 'u(8^+rb%rz5hsx4v^^y(ul7g(4n7a8!db@s*9(m5cs*2_ppy8+'
+# ALLOWED_HOSTS = ['127.0.0.1', ]
+# INTERNAL_IPS = ['127.0.0.1', ]
+
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CALIBRE_DIR = os.path.abspath(
-    "C:\\Users\\MassiveAtoms\\Documents\\Calibre Library")
+
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-
-
-# optimisation stuff
+# optimisation stuff ###############################################3
+#                                                                    #
 CONN_MAX_AGE = 60 * 5 
 
 CACHES = {
@@ -32,6 +50,9 @@ CACHES = {
     }
 }
 
+##                                                                    ##
+########################################################################
+##                    STATIC FILES                                    ##
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -42,23 +63,9 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_URL = '/static/'
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret! 
-SECRET_KEY = 'u(8^+rb%rz5hsx4v^^y(ul7g(4n7a8!db@s*9(m5cs*2_ppy8+'
-
-
-ALLOWED_HOSTS = ['127.0.0.1', ]
-INTERNAL_IPS = [
-    # ...
-    '127.0.0.1',
-    # ...
-]
-
-
+##                                                                    ##
+########################################################################
+##                    DERUG                                           ##
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -76,9 +83,9 @@ DEBUG_TOOLBAR_PANELS = [
 ]
 
 
-
-
-
+##                                                                    ##
+########################################################################
+##                    DERUG                                           ##
 
 LOGIN_REDIRECT_URL = '/books'
 
