@@ -10,6 +10,9 @@ import json
 with open("./../CalibreWebCompanion/settings.json", "r") as jfile:
     calpath = json.load(jfile)["CALIBRE_DIR"] + "\\metadata.db"
 
+with open("dummyusers.json", "r") as jfile:
+    users = json.load(jfile)
+
 engine = create_engine(f'sqlite:///{calpath}')
 Base = declarative_base(engine)
 
@@ -96,48 +99,48 @@ class UserBehavior(HttpUser):
         """ on_start is called when a Locust start before any task is scheduled """
         r = self.client.get('/accounts/login/')
         self.client.headers['Referer'] = self.client.base_url
-        n = random.randint(0, 5)
+        user = randlist(users)
         self.client.post('/accounts/login/',
                          {
-                             "username": f"performance{n}",
-                             "password": "profiling1234",
+                             "username": user["user"],
+                             "password": user["pw"],
                              'csrfmiddlewaretoken': r.cookies["csrftoken"]
                          })
 
-    @task(10)
+    @task(1)
     def search_by_title(self):
         title = randlist(titles)
         self.client.get(f"/results/?title={title}", name="search_by_title")
 
-    @task(10)
+    @task(1)
     def booklist(self):
         self.client.get("/books/")
 
-    @task(15)
+    @task(1)
     def bookdetail(self):
         pk = randlist(book_ids)
         self.client.get(f"/book/{pk}", name="/book/<id>")
 
-    @task(10)
+    @task(1)
     def search_by_author(self):
         author = randlist(authors)
         self.client.get(f"/results/?author={author}", name="search_by_author")
 
-    @task(6)
+    @task(1)
     def authorlist(self):
         self.client.get("/authors/")
 
-    @task(5)
+    @task(1)
     def authordetail(self):
         pk = randlist(author_ids)
         self.client.get(f"/author/{pk}", name="/author/<id>")
 
-    @task(10)
+    @task(1)
     def search_by_id(self):
         id_ = randlist(identifiers)
         self.client.get(f"/results/?identifier={id_}", name="search_by_identifier")
 
-    @task(20)
+    @task(1)
     def search_generic(self):
         t = random.randint(0, 3)
         if not t:
@@ -148,7 +151,7 @@ class UserBehavior(HttpUser):
             term = randlist(identifiers)
         self.client.get(f"/results/?generic={term}", name="search_generic")
 
-    @task(8)
+    @task(1)
     def searchbad(self):
         self.client.get("/search/")
 
@@ -156,29 +159,29 @@ class UserBehavior(HttpUser):
     def ratingslist(self):
         self.client.get("/ratings/")
 
-    @task(10)
+    @task(1)
     def ratingdetail(self):
         pk = randlist(rating_ids)
         self.client.get(f"/rating/{pk}", name="/rating/<id>")
 
-    @task(5)
+    @task(1)
     def taglist(self):
         self.client.get("/tags/")
 
-    @task(10)
+    @task(1)
     def tagdetail(self):
         pk = randlist(tag_ids)
         self.client.get(f"/tag/{pk}", name="/tag/<id>")
 
-    @task(4)
+    @task(1)
     def serieslist(self):
         self.client.get("/series/")
 
-    @task(4)
+    @task(1)
     def publisherlist(self):
         self.client.get("/publishers/")
 
-    @task(4)
+    @task(1)
     def publisherdetail(self):
         pk = randlist(publisher_ids)
         self.client.get(f"/publisher/{pk}", name="/publisher/<id>")
