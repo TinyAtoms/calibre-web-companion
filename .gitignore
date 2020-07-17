@@ -1,6 +1,7 @@
 # project specific
 settings.json
 db.sqlite3
+*.prof
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

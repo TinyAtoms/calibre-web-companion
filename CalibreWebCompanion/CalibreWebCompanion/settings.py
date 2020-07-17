@@ -80,6 +80,12 @@ DEBUG_TOOLBAR_PANELS = [
 ########################################################################
 ##                    DERUG                                           ##
 
+
+# SILKY_PYTHON_PROFILER = True
+# SILKY_PYTHON_PROFILER_BINARY = True
+# SILKY_PYTHON_PROFILER_RESULT_PATH = BASE_DIR + "/profiler"
+# SILKY_META = True
+
 LOGIN_REDIRECT_URL = '/books'
 
 # Application definition
@@ -92,14 +98,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "library",
-    # "silk",
+    # "silk", # DEBUG/profilling purposes
     # 'debug_toolbar', # DEBUG  purposes
 ]
 
 MIDDLEWARE = [
     # 'silk.middleware.SilkyMiddleware', # DEBUG/profiling purposes
     # 'debug_toolbar.middleware.DebugToolbarMiddleware', # DEBUG purposes
-    'django.middleware.cache.UpdateCacheMiddleware', # cache
+    # 'django.middleware.cache.UpdateCacheMiddleware', # cache
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -107,8 +113,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware', # cache
+    # 'django.middleware.cache.FetchFromCacheMiddleware', # cache
 ]
+##                                                                    ##
+########################################################################
+
 
 ROOT_URLCONF = 'CalibreWebCompanion.urls'
 
