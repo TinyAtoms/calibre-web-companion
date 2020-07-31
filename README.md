@@ -8,6 +8,7 @@ Remove the `.bak` from `db.sqlite3.bak` and `settings.json.bak`
 run `./manage.py runserver`  
 
 this is in development mode. don't actually use it or release it like this. The debug info it shows is spicy.  
+The instructions mentioned above are for running this in debug mode, not to deploy the project, and this will be ammended in the future.
 # Features
 
 - [x] Books
