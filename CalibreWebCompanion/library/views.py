@@ -149,7 +149,7 @@ class BookDetailView(generic.DetailView):
             pass
         context["imgpath"] = context["object"].path + "/cover.jpg"
         download = Data.objects.get(book=context["object"].id)
-        context["download"] = f"{context['object'].path}/{download.name}.{download.format}"
+        context["download"] = f"{context['object'].path}/{download.name}.{download.format.lower()}"
         return context
 
 
