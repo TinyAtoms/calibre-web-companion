@@ -12,41 +12,36 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-with open( BASE_DIR + "/settings.json", "r") as userfile:
+with open(BASE_DIR + "/settings.json", "r") as userfile:
     usersettings = json.load(userfile)
     CALIBRE_DIR = os.path.abspath(usersettings["CALIBRE_DIR"])
     SECRET_KEY = usersettings["SECRET_KEY"]
     ALLOWED_HOSTS = usersettings["ALLOWED_HOSTS"]
     INTERNAL_IPS = usersettings["INTERNAL_IPS"]
-
-
-# CALIBRE_DIR = os.path.abspath(
-#     "C:\\Users\\MassiveAtoms\\Documents\\Calibre Library")
-# SECRET_KEY = 'u(8^+rb%rz5hsx4v^^y(ul7g(4n7a8!db@s*9(m5cs*2_ppy8+'
-# ALLOWED_HOSTS = ['127.0.0.1', ]
-# INTERNAL_IPS = ['127.0.0.1', ]
-
+    DEBUG = usersettings["DEBUG"]
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # optimisation stuff ###############################################3
 #                                                                    #
-CONN_MAX_AGE = 60 * 5 
+CONN_MAX_AGE = 60 * 5
 
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
-        "TIMEOUT" : 60 * 5,
-        
+        "TIMEOUT": 60 * 5,
+
     }
 }
 
@@ -58,17 +53,56 @@ CACHES = {
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATICFILES_DIRS = [
-    os.path.abspath(CALIBRE_DIR),
+    # os.path.abspath(CALIBRE_DIR),
     # '/static/',
 ]
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = BASE_DIR + "/static/"
+##                                                                     ##
+#########################################################################
+# LOGGING
+
+
+
+logfile = usersettings["LOGFILE"]
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "root": {"level": "INFO", "handlers": ["file"]},
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": usersettings["LOGFILE"],
+            "formatter": "app",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": True
+        },
+    },
+    "formatters": {
+        "app": {
+            "format": (
+                u"%(asctime)s [%(levelname)-8s] "
+                "(%(module)s.%(funcName)s) %(message)s"
+            ),
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+    },
+}
+
 ##                                                                    ##
 ########################################################################
 ##                    DERUG                                           ##
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.timer.TimerPanel',
@@ -87,6 +121,12 @@ DEBUG_TOOLBAR_PANELS = [
 ########################################################################
 ##                    DERUG                                           ##
 
+
+# SILKY_PYTHON_PROFILER = True
+# SILKY_PYTHON_PROFILER_BINARY = True
+# SILKY_PYTHON_PROFILER_RESULT_PATH = BASE_DIR + "/profiler"
+# SILKY_META = True
+
 LOGIN_REDIRECT_URL = '/books'
 
 # Application definition
@@ -99,12 +139,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "library",
-    'debug_toolbar', # DEBUG  purposes
+    # "silk", # DEBUG/profilling purposes
+    # 'debug_toolbar', # DEBUG  purposes
 ]
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware', # DEBUG purposes
-    'django.middleware.cache.UpdateCacheMiddleware', # cache
+    # 'silk.middleware.SilkyMiddleware', # DEBUG/profiling purposes
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware', # DEBUG purposes
+    'django.middleware.cache.UpdateCacheMiddleware',  # cache
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -112,8 +154,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware', # cache
+    'django.middleware.cache.FetchFromCacheMiddleware',  # cache
 ]
+##                                                                    ##
+########################################################################
+
 
 ROOT_URLCONF = 'CalibreWebCompanion.urls'
 
@@ -138,8 +183,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CalibreWebCompanion.wsgi.application'
 
-
-# Database
+##                                                                    ##
+########################################################################
+##                    DATBASE                                         ##
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
@@ -154,7 +200,7 @@ DATABASES = {
 }
 
 
-DATABASE_ROUTERS = ["db_routers.DjangoRouter", "db_routers.CalibreRouter"]
+DATABASE_ROUTERS = ["db_routers.CalibreRouter", "db_routers.DjangoRouter"]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

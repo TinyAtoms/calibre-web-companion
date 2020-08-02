@@ -4,6 +4,10 @@ db.sqlite3
 dummyusers.json
 *.prof
 
+
+# IDE
+.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

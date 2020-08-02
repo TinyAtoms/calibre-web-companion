@@ -22,6 +22,7 @@ from django.conf import settings
 from django.urls import include, path
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
@@ -30,8 +31,9 @@ urlpatterns = [
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
-if settings.DEBUG: # DEBUG purposes
-    import debug_toolbar
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+# if settings.DEBUG: # DEBUG purposes
+#     urlpatterns+= [path('silk/', include('silk.urls', namespace='silk'))]
+    # import debug_toolbar
+    # urlpatterns = [
+    #     path('__debug__/', include(debug_toolbar.urls)),
+    # ] + urlpatterns
