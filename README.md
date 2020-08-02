@@ -42,6 +42,8 @@ Calibre 4.13 (I have not tested it with anything else atm, will be resolved late
 `./CalibreWebCompanion`     
 run `./manage.py runserver`    
 
+# Ignore pretty much everything below if you're not working on the project
+
 # Profiling
 
 To do profiling, you have to create some dummy users  
