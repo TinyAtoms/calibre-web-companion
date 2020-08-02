@@ -8,7 +8,7 @@ import json
 # -------------------------------- fetching data to test with
 
 with open("./../CalibreWebCompanion/settings.json", "r") as jfile:
-    calpath = json.load(jfile)["CALIBRE_DIR"] + "\\metadata.db"
+    calpath = json.load(jfile)["CALIBRE_DIR"] + "/metadata.db"
 
 with open("dummyusers.json", "r") as jfile:
     users = json.load(jfile)

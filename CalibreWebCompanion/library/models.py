@@ -8,7 +8,9 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.functional import cached_property
+import logging
 
+logger = logging.getLogger(__name__)
 
 class Author(models.Model):
     name = models.TextField()

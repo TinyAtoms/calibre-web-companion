@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+import logging
 
+logger = logging.getLogger(__name__)
 
 class SearchForm(forms.Form):
     title = forms.CharField(label="Title", max_length=200)

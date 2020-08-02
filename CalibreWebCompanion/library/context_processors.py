@@ -1,6 +1,8 @@
 from .models import Author, Tag, Publisher, Language, Rating, Series
 from django.db.models import Count
+import logging
 
+logger = logging.getLogger(__name__)
 
 def filters(request):
     # unique_authors = Author.objects.all().order_by('sort')

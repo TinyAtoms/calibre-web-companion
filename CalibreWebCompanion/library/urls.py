@@ -1,7 +1,9 @@
 from django.urls import path
 from . import views
 from django.views.decorators.cache import cache_page
+import logging
 
+logger = logging.getLogger(__name__)
 
 urlpatterns = [
     path('authors/', views.AuthorListView.as_view(), name='authors'),

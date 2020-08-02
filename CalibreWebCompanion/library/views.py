@@ -8,7 +8,9 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+import logging
 
+logger = logging.getLogger(__name__)
 
 # might be helpful for vary headers later
 from django.utils.decorators import method_decorator

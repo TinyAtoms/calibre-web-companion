@@ -1,4 +1,5 @@
 django>=3.0.8
+inotify>=0.2.10
 # development
 django-debug-toolbar>=2.2
 django-silk>=4.0
