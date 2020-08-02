@@ -12,10 +12,13 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-with open( BASE_DIR + "/settings.json", "r") as userfile:
+with open(BASE_DIR + "/settings.json", "r") as userfile:
     usersettings = json.load(userfile)
     CALIBRE_DIR = os.path.abspath(usersettings["CALIBRE_DIR"])
     SECRET_KEY = usersettings["SECRET_KEY"]
@@ -24,23 +27,21 @@ with open( BASE_DIR + "/settings.json", "r") as userfile:
     DEBUG = usersettings["DEBUG"]
 
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # optimisation stuff ###############################################3
 #                                                                    #
-CONN_MAX_AGE = 60 * 5 
+CONN_MAX_AGE = 60 * 5
 
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
-        "TIMEOUT" : 60 * 5,
-        
+        "TIMEOUT": 60 * 5,
+
     }
 }
 
@@ -59,6 +60,42 @@ STATICFILES_DIRS = [
 STATIC_URL = '/static/'
 
 STATIC_ROOT = BASE_DIR + "/static/"
+##                                                                     ##
+#########################################################################
+# LOGGING
+
+
+
+logfile = usersettings["LOGFILE"]
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "root": {"level": "INFO", "handlers": ["file"]},
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": usersettings["LOGFILE"],
+            "formatter": "app",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": True
+        },
+    },
+    "formatters": {
+        "app": {
+            "format": (
+                u"%(asctime)s [%(levelname)-8s] "
+                "(%(module)s.%(funcName)s) %(message)s"
+            ),
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+    },
+}
 
 ##                                                                    ##
 ########################################################################
@@ -109,7 +146,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     # 'silk.middleware.SilkyMiddleware', # DEBUG/profiling purposes
     # 'debug_toolbar.middleware.DebugToolbarMiddleware', # DEBUG purposes
-    'django.middleware.cache.UpdateCacheMiddleware', # cache
+    'django.middleware.cache.UpdateCacheMiddleware',  # cache
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -117,7 +154,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware', # cache
+    'django.middleware.cache.FetchFromCacheMiddleware',  # cache
 ]
 ##                                                                    ##
 ########################################################################
@@ -163,7 +200,7 @@ DATABASES = {
 }
 
 
-DATABASE_ROUTERS = [ "db_routers.CalibreRouter", "db_routers.DjangoRouter"]
+DATABASE_ROUTERS = ["db_routers.CalibreRouter", "db_routers.DjangoRouter"]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

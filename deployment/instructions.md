@@ -5,7 +5,7 @@
 4. move this nginx.conf to /etc/nginx
 5. make whatever user nginx runs as (in this case, massiveatoms) the owner of calibredir
 6. give execute permissions to parent of calibredir
-7. cd to repo, run `gunicorn -w <2x n cores/threads> CalibreWebCompanion.wsgi`
+7. cd to repo, run `gunicorn CalibreWebCompanion.wsgi`
 8. start nginx `sudo systemctl restart nginx`
 
 Slight issues with this atm:

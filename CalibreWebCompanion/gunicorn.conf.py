@@ -6,9 +6,11 @@ preload_app = True # By preloading an application you can save some RAM resource
 keepalive = 5
 # daemon = True # Detaches the server from the controlling terminal and enters the background. disabled for now
 # logging
-errorlog = "/home/massiveatoms/Desktop/logs/gunicorn.log"
-loglevel = "warning"
 
+errorlog = "/home/massiveatoms/Desktop/logs/gunicorn_error.log"
+loglevel = "warning"
+accesslog = "/home/massiveatoms/Desktop/logs/gunicorn_access.log"
+# capture_output = True
 
 # debug settings which need to be commented out in prod
 # reload=True
