@@ -21,6 +21,7 @@ with open( BASE_DIR + "/settings.json", "r") as userfile:
     SECRET_KEY = usersettings["SECRET_KEY"]
     ALLOWED_HOSTS = usersettings["ALLOWED_HOSTS"]
     INTERNAL_IPS = usersettings["INTERNAL_IPS"]
+    DEBUG = usersettings["DEBUG"]
 
 
 
@@ -51,17 +52,20 @@ CACHES = {
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATICFILES_DIRS = [
-    os.path.abspath(CALIBRE_DIR),
+    # os.path.abspath(CALIBRE_DIR),
     # '/static/',
 ]
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = BASE_DIR + "/static/"
+
 ##                                                                    ##
 ########################################################################
 ##                    DERUG                                           ##
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.timer.TimerPanel',
