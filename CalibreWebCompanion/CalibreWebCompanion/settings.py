@@ -158,7 +158,7 @@ MIDDLEWARE = [
 ]
 ##                                                                    ##
 ########################################################################
-
+DEFAULT_CHARSET = "utf-8"
 
 ROOT_URLCONF = 'CalibreWebCompanion.urls'
 

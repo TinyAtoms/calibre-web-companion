@@ -1,3 +1,4 @@
+from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.views import generic
 from .models import Author, Book, Comment, Rating, BookAuthorLink, Publisher, Tag, BookTagLink, BookRatingLink, Data, Identifier, Series
@@ -13,7 +14,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 # might be helpful for vary headers later
-from django.utils.decorators import method_decorator
 
 
 @login_required
@@ -58,13 +58,29 @@ class ResultsView(generic.ListView):  # no clue if this is secure.
         if title:
             books = books.filter(sort__icontains=title)
         if author:
-            books = books.filter(author_sort__icontains=author)
+            # authors are stored as author_sort and author, needs to be slightly more complex
+            author_obj = Author.objects.filter(name__icontains=author).first()
+            if not author_obj:
+                author_id = -1
+            else:
+                author_id = author_obj.id
+
+            books = books.filter(
+                Q(author_sort__icontains=author) |
+                Q(authors__id=author_id)
+            )
         if identifier:
             books = books.filter(identifier__val=identifier)
         if generic:
+            author_obj = Author.objects.filter(name__icontains=generic).first()
+            if not author_obj:
+                author_id = -1
+            else:
+                author_id = author_obj.id
             books = books.filter(
                 Q(sort__icontains=generic) |
                 Q(author_sort__icontains=generic) |
+                Q(authors__id=author_id) |
                 Q(identifier__val=generic)
             )
         return books

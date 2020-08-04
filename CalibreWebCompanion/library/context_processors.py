@@ -15,7 +15,7 @@ def filters(request):
     unique_authors = Author.objects.only('name', "id").annotate(num_books=Count('book')).order_by('name')
     unique_tags = Tag.objects.annotate(num_books=Count('book')).order_by('name')
     unique_publishers = Publisher.objects.annotate(num_books=Count('book')).order_by('name')
-    unique_languages = Language.objects.annotate(num_books=Count('book')).order_by('rating')
+    unique_languages = Language.objects.annotate(num_books=Count('book')).order_by('lang_code')
     unique_ratings = Rating.objects.annotate(num_books=Count('book'))
     unique_series = Series.objects.annotate(num_books=Count('book')).order_by('sort')
     
